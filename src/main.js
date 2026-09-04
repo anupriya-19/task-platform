@@ -12,7 +12,7 @@ const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
 const toast=(m,type='ok')=>{const x=document.createElement('div');x.className='toast '+type;x.textContent=m;document.body.appendChild(x);setTimeout(()=>x.remove(),2800)};
 
 async function db(table,method='select',payload=null,id=null){
- if(!supabase) return null;
+ if(!supabase) { console.error('Supabase client not configured'); return null; }
  let q=supabase.from(table); if(method==='select') return (await q.select('*').order('created_at',{ascending:false})).data||[];
  if(method==='insert') return (await q.insert(payload).select().single()).data;
  if(method==='update') return (await q.update(payload).eq('id',id).select().single()).data;
